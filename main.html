@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShieldStone Labs - AI Infrastructure for Ambitious Startups</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400&family=Roboto+Mono:wght@300;400&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #0a0a0a;
+            --rich-black: #1a1a1a;
+            --accent-gold: #d4af37;
+            --subtle-gray: #666;
+            --light-gray: #999;
+            --off-white: #f5f5f5;
+            --pure-white: #ffffff;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: var(--primary-black);
+            color: var(--off-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Logo at top */
+        .top-logo {
+            position: fixed;
+            top: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeInDown 1.5s ease 0.5s forwards;
+        }
+
+        .top-logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 5px;
+            color: var(--pure-white);
+            text-transform: uppercase;
+            margin: 0;
+            position: relative;
+        }
+
+        .top-logo h1::after {
+            display: none; /* Remove the underline animation from logo */
+        }
+
+        /* Logo fade on scroll */
+        .top-logo.scrolled {
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+
+        .top-logo:hover {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Navigation - HIDDEN FOR NOW */
+        nav {
+            display: none; /* Hidden until needed */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 5%;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.95), rgba(10,10,10,0));
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10,10,10,0.98);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: var(--pure-white);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--pure-white);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, var(--rich-black) 0%, var(--primary-black) 100%);
+        }
+
+        /* Animated background particles */
+        .particle-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-gold);
+            opacity: 0.3;
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1000px;
+            padding: 0 2rem;
+            animation: fadeInUp 1.5s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            position: relative;
+        }
+
+        /* Animated underline for h1 */
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            animation: expandLine 2s ease-out 0.5s forwards;
+        }
+
+        @keyframes expandLine {
+            to {
+                width: 200px;
+            }
+        }
+
+        .accent-text {
+            color: var(--accent-gold);
+            display: inline-block;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--light-gray);
+            margin-bottom: 3rem;
+            letter-spacing: 1px;
+        }
+
+        .cta-button {
+            display: none; /* Hidden until needed */
+            /*
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: transparent;
+            color: var(--pure-white);
+            border: 1px solid var(--pure-white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            */
+        }
+
+        .cta-button:hover {
+            color: var(--primary-black);
+            border-color: var(--accent-gold);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            left: 0;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 50px;
+            border: 1px solid var(--subtle-gray);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            padding-top: 10px;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            width: 3px;
+            height: 10px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+            animation: scroll 2s infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--light-gray);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* Value Props with stagger animation */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .value-card {
+            background: var(--rich-black);
+            padding: 3rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUpStagger 0.8s ease forwards;
+        }
+
+        .value-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .value-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .value-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes fadeInUpStagger {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Gradient border on hover */
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--accent-gold), transparent, var(--accent-gold));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: inherit;
+            z-index: -1;
+        }
+
+        .value-card:hover::before {
+            opacity: 1;
+            animation: borderRotate 3s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            0% {
+                background: linear-gradient(45deg, var(--accent-gold), transparent, var(--accent-gold));
+            }
+            50% {
+                background: linear-gradient(225deg, var(--accent-gold), transparent, var(--accent-gold));
+            }
+            100% {
+                background: linear-gradient(45deg, var(--accent-gold), transparent, var(--accent-gold));
+            }
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .value-card p {
+            color: var(--light-gray);
+            line-height: 1.8;
+        }
+
+        /* Services Section */
+        .services {
+            background: var(--rich-black);
+        }
+
+        .service-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 6rem;
+        }
+
+        .service-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .service-item:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .service-content h3 {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .service-content p {
+            color: var(--light-gray);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-visual {
+            background: var(--primary-black);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-snippet {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+            padding: 2rem;
+            text-align: left;
+            opacity: 0;
+            animation: typewriter 2s steps(40) 0.5s forwards;
+        }
+
+        @keyframes typewriter {
+            to {
+                opacity: 0.7;
+            }
+        }
+
+        /* Add glow effect to code */
+        .service-visual:hover .code-snippet {
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Process Section */
+        .process-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255,255,255,0.1);
+            transform: translateX(-50%);
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .process-step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .step-content {
+            flex: 1;
+            padding: 0 3rem;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-black);
+            border: 1px solid var(--accent-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* CTA Section - HIDDEN FOR NOW */
+        .cta-section {
+            display: none; /* Hidden until needed */
+            /*
+            text-align: center;
+            padding: 8rem 5%;
+            background: linear-gradient(135deg, var(--rich-black), var(--primary-black));
+            */
+        }
+
+        .cta-section h2 {
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .secondary-cta {
+            background: transparent;
+            border: 1px solid var(--subtle-gray);
+            color: var(--light-gray);
+        }
+
+        .secondary-cta:hover {
+            border-color: var(--pure-white);
+            color: var(--pure-white);
+        }
+
+        /* Footer with animation */
+        footer {
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tagline {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            color: var(--light-gray);
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: none; /* Hidden until needed */
+            /*
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            margin-top: 2rem;
+            */
+        }
+
+        .footer-links a {
+            color: var(--subtle-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--pure-white);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .service-item,
+            .service-item:nth-child(even) {
+                grid-template-columns: 1fr;
+                direction: ltr;
+            }
+
+            .process-step,
+            .process-step:nth-child(even) {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .process-timeline::before {
+                display: none;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Logo -->
+    <div class="top-logo" id="topLogo">
+        <h1>ShieldStone Labs</h1>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">SHIELDSTONE</a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="particle-container" id="particles"></div>
+        <div class="hero-content">
+            <h1>AI Infrastructure<br><span class="accent-text">Architected for Ambition</span></h1>
+            <p class="hero-subtitle">Elite backend engineering that transforms startups into category leaders</p>
+            <!-- <a href="#contact" class="cta-button">Begin Your Transformation</a> -->
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Value Proposition -->
+    <section id="value">
+        <div class="section-header">
+            <h2>Precision Engineering Meets AI Excellence</h2>
+            <p class="section-subtitle">Where sophisticated technology meets flawless execution</p>
+        </div>
+        <div class="value-grid">
+            <div class="value-card">
+                <h3>Architectural Mastery</h3>
+                <p>Bespoke AI systems designed with the precision of haute couture. Every line of code crafted to perfection, every architecture decision made with your scale in mind.</p>
+            </div>
+            <div class="value-card">
+                <h3>Rapid Sophistication</h3>
+                <p>From concept to deployment in weeks, not months. Our refined processes and battle-tested patterns accelerate your vision without compromising elegance.</p>
+            </div>
+            <div class="value-card">
+                <h3>Seamless Integration</h3>
+                <p>AI that flows through your infrastructure like silk. We ensure every connection is flawless, every API response pristine, every user experience extraordinary.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="section-header">
+            <h2>Curated Technical Excellence</h2>
+            <p class="section-subtitle">Services refined through experience, delivered with distinction</p>
+        </div>
+        <div class="service-item">
+            <div class="service-content">
+                <h3>AI Backend Architecture</h3>
+                <p>Custom-engineered systems that handle complexity with grace. From microservices to monoliths, we design infrastructures that scale elegantly.</p>
+                <p>PostgreSQL, Redis, Kubernetes — the finest tools wielded with expertise.</p>
+            </div>
+            <div class="service-visual">
+                <div class="code-snippet">
+                    class AIOrchestrator:<br>
+                    &nbsp;&nbsp;def __init__(self):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;self.elegance = True<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;self.performance = "optimal"
+                </div>
+            </div>
+        </div>
+        <div class="service-item">
+            <div class="service-content">
+                <h3>Intelligent API Development</h3>
+                <p>RESTful and GraphQL endpoints that respond with the speed of thought. Every request optimized, every response crafted for perfection.</p>
+                <p>Sub-100ms response times. 99.9% uptime. Zero compromises.</p>
+            </div>
+            <div class="service-visual">
+                <div class="code-snippet">
+                    POST /api/v1/inference<br>
+                    {<br>
+                    &nbsp;&nbsp;"model": "custom-gpt",<br>
+                    &nbsp;&nbsp;"latency": "15ms"<br>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="service-item">
+            <div class="service-content">
+                <h3>Model Integration & Optimization</h3>
+                <p>From OpenAI to custom transformers, we integrate AI that doesn't just work — it performs. Fine-tuned for your use case, optimized for your infrastructure.</p>
+                <p>LangChain, vector databases, custom pipelines — sophistication in every layer.</p>
+            </div>
+            <div class="service-visual">
+                <div class="code-snippet">
+                    pipeline = Pipeline([<br>
+                    &nbsp;&nbsp;DataProcessor(),<br>
+                    &nbsp;&nbsp;ModelInference(),<br>
+                    &nbsp;&nbsp;ResponseOptimizer()<br>
+                    ])
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process">
+        <div class="section-header">
+            <h2>A Refined Approach</h2>
+            <p class="section-subtitle">From vision to reality with methodical precision</p>
+        </div>
+        <div class="process-timeline">
+            <div class="process-step">
+                <div class="step-content">
+                    <h3>Discovery & Architecture</h3>
+                    <p>We begin with understanding. Your vision, your constraints, your ambitions. Then we architect solutions that transcend expectations.</p>
+                </div>
+                <div class="step-number">1</div>
+                <div class="step-content"></div>
+            </div>
+            <div class="process-step">
+                <div class="step-content">
+                    <h3>Elegant Prototyping</h3>
+                    <p>See your AI come to life in days. Functional prototypes that demonstrate not just possibility, but excellence.</p>
+                </div>
+                <div class="step-number">2</div>
+                <div class="step-content"></div>
+            </div>
+            <div class="process-step">
+                <div class="step-content">
+                    <h3>Production Craftsmanship</h3>
+                    <p>Every component built to last. Security, scalability, and sophistication woven into every layer of your infrastructure.</p>
+                </div>
+                <div class="step-number">3</div>
+                <div class="step-content"></div>
+            </div>
+            <div class="process-step">
+                <div class="step-content">
+                    <h3>Flawless Deployment</h3>
+                    <p>Launch with confidence. Monitoring, optimization, and support that ensures your success is sustained.</p>
+                </div>
+                <div class="step-number">4</div>
+                <div class="step-content"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section - HIDDEN FOR NOW -->
+    <!--
+    <section id="contact" class="cta-section">
+        <h2>Ready for AI That Defines Categories?</h2>
+        <p class="section-subtitle">Join the select startups building tomorrow's technology today</p>
+        <div class="cta-buttons">
+            <a href="mailto:hello@shieldstonelabs.com" class="cta-button">Schedule Consultation</a>
+            <a href="#" class="cta-button secondary-cta">View Select Work</a>
+        </div>
+    </section>
+    -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="tagline">SHIELDSTONE LABS</p>
+            <p style="color: var(--subtle-gray); font-size: 0.9rem;">Where Technical Excellence Meets Refined Taste</p>
+            <!--
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="mailto:hello@shieldstonelabs.com">hello@shieldstonelabs.com</a>
+            </div>
+            -->
+        </div>
+    </footer>
+
+    <script>
+        // Create floating particles
+        const particleContainer = document.getElementById('particles');
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = 20 + Math.random() * 10 + 's';
+            particleContainer.appendChild(particle);
+        }
+
+        // Smooth scroll for navigation (when enabled)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Navigation scroll effect (kept for future use)
+        /*
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        */
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements that don't have built-in animations
+        document.querySelectorAll('.service-item, .process-step').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            observer.observe(el);
+        });
+
+        // Add animate-in class styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .animate-in {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroContent = document.querySelector('.hero-content');
+            const particles = document.querySelector('.particle-container');
+            
+            if (heroContent) {
+                heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
+                heroContent.style.opacity = 1 - (scrolled * 0.001);
+            }
+            
+            if (particles) {
+                particles.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Add hover effect for value cards
+        document.querySelectorAll('.value-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.background = `
+                    radial-gradient(
+                        600px at ${x}px ${y}px,
+                        rgba(212, 175, 55, 0.05),
+                        transparent 40%
+                    ),
+                    var(--rich-black)
+                `;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.background = 'var(--rich-black)';
+            });
+        });
+
+        // Logo fade on scroll
+        window.addEventListener('scroll', () => {
+            const topLogo = document.getElementById('topLogo');
+            if (window.scrollY > 100) {
+                topLogo.classList.add('scrolled');
+            } else {
+                topLogo.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
